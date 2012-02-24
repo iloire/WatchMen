@@ -14,6 +14,26 @@ exports.database = { port: 1216, host : '127.0.0.1', db: 'watchmen' }
 var hosts = 
 	[
 		{
+                        name:'Apple HTTPS',
+                        host: 'www.apple.com',
+                        port:443,
+			protocol: 'https',
+                        timeout:10000,
+                        ping_interval: one_minute, //seconds
+                        failed_ping_interval: one_minute, //minutes
+                        enabled: true,
+                        alert_to: ['ivan@iloire.com'],
+                        warning_if_takes_more_than: 1500, //miliseconds
+                        urls : [
+                                {
+                                        method: 'get',
+                                        url : '/',
+                                        expected: {statuscode: 200, contains: 'Apple Inc'} ,
+                                }
+                        ]
+                }
+                ,
+		{
 			name:'VitaminasDev', 
 			host: 'www.vitaminasdev.com', 
 			port:80,
