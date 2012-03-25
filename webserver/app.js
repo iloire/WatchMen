@@ -118,16 +118,21 @@ app.get('/log', function(req, res){
 						url_status : url_status, 
 						logs_warning: logs_warning, 
 						logs_critical: logs_critical
+					}, function(err, rendered){
+						res.writeHead(200, {'Content-Type': 'text/html'});
+        				res.end(rendered);
 					});
 				}
-				else{
+				else
+                {
 					console.log (err)
 					res.end ('Error (see console)')
 				}
 			})
 		});
 	}
-	else{
+	else
+    {
 		res.end ('host/url not found')
 	}
 });
