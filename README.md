@@ -206,7 +206,7 @@ watchmen.on('service_error', function(service, state){
 
 or more probably you would want to use **forever** to run it in the background
 
-    $ forever start watchmen.js
+    $ forever start server.js
 
 ### Run the web app
 
