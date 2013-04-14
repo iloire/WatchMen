@@ -1,0 +1,20 @@
+<a style="float:right" href="/" class="btn primary"><i class="icon-chevron-left"></i> back to list</a>
+
+<h2>
+	<%=title%>
+	<small>
+	current status: <img class="status_icon" src="/images/<%=service.data.status%>.png" alt="<%=service.data.status%>" /> <%=service.data.status%>
+	</
+	</small>
+</h2>
+
+<div class="row-fluid">
+	<div class="span6">
+	<%-partial ('partial/display_logs_list', {logs:critical_events, log_type:'Critical'})%>
+	</div>
+	<div class="span6">
+	<%-partial ('partial/display_logs_list', {logs:warning_events, log_type:'Warning'})%>
+	</div>
+</div>
+
+<a href="/" class="btn primary"><i class="icon-chevron-left"></i> back to list</a>

@@ -1,75 +1,83 @@
-var viewModel = {
-	urls: ko.observableArray(),
-	lastupdate: ko.observable(),
-	filter: ko.observable(''),
-};
+var interval = 2500; //ms
+var _data = null;
+var _timer = null;
 
-viewModel.filteredUrls = ko.dependentObservable(function() {
-	var filter = this.filter().toLowerCase();
-	if(!filter) {
-		return this.urls();
-	} else {
-		return ko.utils.arrayFilter(this.urls(), function(item) {
-		if(item.host.name.toLowerCase().search(filter) != -1) {
-			return true;
+var watchmen_client = {
+
+	currentSort : [],
+
+	bind : function (data, filter){
+		var self = this;
+		var display_data = {};
+
+		if (filter){
+			//ECMA 5 filter
+			display_data.services = data.services.filter(function(item){
+				return item.url_info.indexOf(filter)>-1;
+			});
 		}
+		else{
+			display_data = data;
+		}
+
+		//------------------------------------------
+		// List of all services
+		//------------------------------------------
+		var template_list = Handlebars.compile($("#services_list_template").html());
+		$('#data_holder').html(template_list(display_data));
+
+		//------------------------------------------
+		// Counters
+		//------------------------------------------
+		var template_totals = Handlebars.compile($("#totals_template").html());
+		var totals_data = {};
+
+		function up(service){
+			return (service.data && service.data.status === "success");
+		}
+
+		function disabled(service){
+			return (!service.enabled);
+		}
+
+		totals_data.all = display_data.services.length;
+		totals_data.up = display_data.services.filter(up).length;
+		totals_data.disabled = display_data.services.filter(disabled).length;
+		totals_data.down = totals_data.all - totals_data.up - totals_data.disabled;
+		$('#totals_holder').html(template_totals(totals_data));
+
+		//------------------------------------------
+		// Config table sorter, remember sort options
+		//------------------------------------------
+		if (display_data.services.length){
+			$("table.sorted").tablesorter({
+				headers: {8: {sorter: 'percent'}, 9: {sorter: false}},
+				sortList: self.currentSort
+			}).bind("sortEnd", function(sorter) {
+				self.currentSort = sorter.target.config.sortList;
+			});
+		}
+
+		self.resetTimer();
+	},
+
+	resetTimer : function(){
+		var self = this;
+		clearTimeout(_timer);
+		_timer = setTimeout (function(){self.refresh.call(self);}, interval);
+	},
+
+	refresh : function (){
+		var self = this;
+		$.ajax({ url: '/getdata', data: {}, dataType: 'json', success: function (data) {
+			_data = data;
+			self.bind(data, $('#filter').val());
+
+			//------------------------------------------
+			// Next tick
+			//------------------------------------------
+			self.resetTimer();
+			}
 		});
 	}
-}, viewModel);
-
-viewModel.hostsUp = ko.dependentObservable(function() {
-	return ko.utils.arrayFilter(this.filteredUrls(), function(item) {
-	    if(item.status == 'ok')
-	        return true;
-	}).length;
-}, viewModel);
-
-viewModel.hostsTotal = ko.dependentObservable(function() {
-	return ko.utils.arrayFilter(this.filteredUrls(), function(item) { 
-		if(item.status != 'disabled')
-			return true;
-	}).length;
-}, viewModel);
-
-viewModel.hostsDown = ko.dependentObservable(function() {
-	return ko.utils.arrayFilter(this.filteredUrls(), function(item) {
-	    if(item.status == 'error') 
-	        return true;
-	}).length;
-
-}, viewModel);
-
-var interval=2500; //ms
-
-function Refresh(){		
-	$.ajax({ url: '/getdata', data: {}, dataType: 'json', success: function (data) {
-			var urls = [];
-			for(var i=0;i<data.hosts.length;i++){
-				for (var u=0;u<data.hosts[i].urls.length;u++){
-					var url = data.hosts[i].urls[u];
-					url.host = data.hosts[i];
-					urls.push (url);
-				}
-			}
-			viewModel.urls (urls);
-			$("table").trigger("update");
-			viewModel.lastupdate(data.timestamp)
-  			$("time.timeago").timeago();
-
-			setTimeout (Refresh, interval);
-		}
-	});	
-}	
-
-$(document).ready(function() {
-	ko.applyBindings(viewModel);
-
-	$("table").tablesorter({
-		textExtraction:function(s){
-			if($(s).find('time').length == 0) return $(s).text();
-			return new Date($(s).find('time').attr('datetime')).getTime();
-		}
-	});
-	
-	$("time.timeago").timeago();
-});
+};

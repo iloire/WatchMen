@@ -2,3 +2,4 @@ logs/
 .monitor
 .DS_Store
 node_modules/
+watchmen.rdb

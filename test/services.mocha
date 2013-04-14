@@ -1,0 +1,20 @@
+var	assert = require ('assert');
+
+describe('services', function(){
+
+	var services = require ('../lib/services').load_services();
+
+	describe('reporting list', function(){
+		it('should load all services', function(done){
+			var services = require ('../lib/services').load_services();
+			assert.equal (services.length, 26);
+			done();
+		});
+
+		it('should load all enabled services', function(done){
+			var services_enabled = services.filter(function(item){return item.enabled;});
+			assert.equal (services_enabled.length, 23);
+			done();
+		});
+	});
+});

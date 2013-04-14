@@ -1,0 +1,131 @@
+var	assert = require ('assert');
+var watchmen = require ('../lib/watchmen.js');
+var redis_storage_class = require('../lib/storage/providers/redis');
+var mocked_ping_service = require ('./lib/mock/request_mocked');
+
+describe('redis storage', function(){
+
+	//use redis_storage with testing environment
+	var redis_storage = new redis_storage_class({port: 6666, host: '127.0.0.1', db: 0});
+	var _watchmen = new watchmen(null, redis_storage);
+
+	var services = require ('../lib/services').load_services();
+	var service = services[0];
+	service.ping_service = mocked_ping_service; //assign mocked service
+
+	var temp_status = null;
+
+	before(function(done){
+		mocked_ping_service.mocked_response = {error: 'error', body : null, response : null, timeDiff : 0};
+		redis_storage.flush_database(function(){
+			_watchmen.ping({service:service}, function(err, request_status){
+				assert.ifError(err);
+				temp_status = request_status;
+				done();
+			});
+		});
+	});
+
+	describe('load status', function(){
+		it('should load (first time)', function(done){
+			redis_storage.get_status(service, function(err, status){
+				assert.ifError(err);
+				assert.equal (JSON.stringify(status), JSON.stringify(temp_status));
+				done();
+			});
+		});
+	});
+
+	describe('update status', function(){
+		it('should update', function(done){
+			temp_status.elapsed_time = 66666;
+			redis_storage.update_status(service, temp_status, function(err){
+				assert.ifError (err);
+				done();
+			});
+		});
+
+		it('should be updated (check)', function(done){
+			redis_storage.get_status(service, function(err, status){
+				assert.ifError(err);
+				assert.equal (JSON.stringify(status), JSON.stringify(temp_status));
+				done();
+			});
+		});
+	});
+
+	describe('reporting list', function(){
+		it('should load info for all services', function(done){
+			var services = require ('../lib/services').load_services();
+			redis_storage.report_all(services, function(err, data){
+				assert.ifError(err);
+				assert.equal (data.services.length, 26);
+				done();
+			});
+		});
+	});
+
+	describe('reporting details', function(){
+
+		var service_results = null;
+
+		before (function(done){
+			redis_storage.report_one(service, function(err, _service){
+				service_results = _service;
+				done(err);
+			});
+		});
+
+		it('should have a data property', function(done){
+				assert.ok (service_results.data);
+				done();
+		});
+
+		it('should have events', function(done){
+				assert.equal (service_results.data.events.length, 1);
+				done();
+		});
+
+		describe('events', function(){
+
+			before(function(done){
+				mocked_ping_service.mocked_response = {body : 'Apple Inc', response : {statusCode: 200}, timeDiff : 200};
+				_watchmen.ping({service:service}, function(err, request_status){
+					assert.ifError(err);
+					redis_storage.report_one(service, function(err, _service){
+						service_results = _service;
+						done(err);
+					});
+				});
+			});
+
+			it('should have two events', function(done){
+				assert.equal(service_results.data.events.length, 2);
+				done();
+			});
+
+			it('should have success event in first position', function(done){
+				assert.equal(service_results.data.events[0].status, 'success');
+				done();
+			});
+
+			it('should have error event in second position', function(done){
+				assert.equal(service_results.data.events[1].status, 'error');
+				done();
+			});
+
+			it('should have timestamp', function(done){
+					assert.ok (service_results.data.events[0].timestamp);
+					done();
+			});
+		});
+
+		describe('service', function(){
+			it('should remain the same', function(done){
+					delete service_results.data;
+					assert.equal (JSON.stringify(service_results), JSON.stringify(service_results));
+					done();
+			});
+		});
+	});
+});

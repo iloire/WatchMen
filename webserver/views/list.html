@@ -1,0 +1,115 @@
+<script id='services_list_template' type="text/x-handlebars-template">
+
+<table class="table sorted table-striped table-condensed">
+	<thead>
+		<th width="40"></th>
+		<th width="80">Ping type</th>
+		<th>Service</th>
+		<th width="80"><span title="Average response time (milliseconds)">AVG res.</span></th>
+		<th width="70">outages</th>
+		<th width="14%">last outage</th>
+		<th width="75">warnings</th>
+		<th width="14%">last warning</th>
+		<th width="10%">uptime</th>
+		<th width="90"></th>
+	</thead>
+	<tbody>
+
+	{{#each services}}
+	<tr class="{{#if enabled}}{{data.status}}{{else}}disabled{{/if}}">
+
+		<td class="icon">
+			<span>{{data.status}}</span>
+		</td>
+
+		<td style="text-align:center">
+			{{ping_service_name}}
+		</td>
+
+		<td class="hosturl">
+			<a target="_blank" href="{{host.protocol}}://{{host.host}}:{{host.port}}{{url}}">
+				{{host.name}} / {{name}}
+			</a>
+			<br />
+			<span title="ping interval: {{ping_interval}} seconds" class="label">{{ping_interval}}</span>
+			{{#if warning_if_takes_more_than}}
+			<span title="response limit (warning): {{warning_if_takes_more_than}} milliseconds" class="label label-warning">{{warning_if_takes_more_than}}</span>
+			{{/if}}
+
+			<span title="{{data.ok_responses_count}} successful responses" class="label label-success">{{data.ok_responses_count}}</span>
+
+			<br />
+
+			{{#if data.last_check}}
+			<span class="last_check">
+				last check:
+				{{dateFormat data.last_check format="MMM Do, h:mm:ss"}}
+				<time datetime='{{dateFormat data.last_check format="MMMM Do, h:mm:ss"}}'>{{dateFormat data.last_check ago=true}}</time>
+			</span>
+			{{/if}}
+		</td>
+
+		<td class="avgresponse">
+			{{data.avg_response_time}}
+		</td>
+
+		<td class="error">
+			{{#if data.outages}}
+			<span class="badge badge-important">{{data.outages}}</span>
+			{{/if}}
+		</td>
+
+		<td class="error">
+			{{#if data.last_outage}}
+			{{dateFormat data.last_outage format="MMM Do, h:mm:ss"}}
+			<br />
+			<time datetime='{{dateFormat data.last_outage format="MMMM Do, h:mm:ss"}}'>{{dateFormat data.last_outage ago=true}}</time>
+			{{/if}}
+		</td>
+
+		<td class="warning">
+			{{#if data.warnings}}
+			<span class="badge badge-warning">{{data.warnings}}</span>
+			{{/if}}
+		</td>
+
+		<td class="warning">
+			{{#if data.last_warning}}
+			{{dateFormat data.last_warning format="MMM Do, h:mm:ss"}}
+			<br />
+			<time datetime='{{dateFormat data.last_warning format="MMMM Do, h:mm:ss"}}'>{{dateFormat data.last_warning ago=true}}</time>
+			{{/if}}
+		</td>
+
+		<td class="">
+			{{#if data.uptime}}
+			{{data.uptime}}%
+			{{/if}}
+			<br />
+			{{#if data.up_since}}
+			<time datetime='{{dateFormat data.up_since format="MMMM Do, h:mm:ss"}}'>started {{dateFormat data.up_since ago=true}}</time>
+			{{/if}}
+		</td>
+
+		<td>
+			<a class="btn primary" href="/details?service={{name}}&host={{host.name}}"><i class="icon-th-list"></i> details</a>
+		</td>
+	</tr>
+	{{/each}}
+	</tbody>
+</table>
+</script>
+
+<span class="add-on"><i class="icon-search"></i></span>
+<input type="text" id="filter" placeholder="filter by host name"/>
+
+<div id="data_holder"></div>
+
+<script>
+$(document).ready(function() {
+	$('#filter').keydown(function(event){
+		watchmen_client.bind(_data, $(this).val());
+	});
+	watchmen_client.refresh();
+});
+</script>

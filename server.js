@@ -1,64 +1,80 @@
-/*
-Watchmen, and HTTP monitor for node.js
+var config = require('./config/general');
+var email_service = require ('./lib/notifications/email/email');
+var storage_factory = require ('./lib/storage/storage_factory');
+var services = require ('./lib/services').load_services();
 
-Copyright (c) 2011 Ivan Loire (twitter: @ivanloire) www.iloire.com
+var WatchMen = require ('./lib/watchmen');
+var storage = storage_factory.get_storage_instance();
+var watchmen = new WatchMen(services, storage);
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+//----------------------------------------------------
+// Subscribe to service events
+//----------------------------------------------------
+watchmen.on('service_error', function(service, state){
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+	/*
+	//Do here any additional stuff when you get an error
+	*/
+	var info = service.url_info + ' down!. Error: ' + state.error + '. Retrying in ' +
+			(parseInt(state.next_attempt_secs, 10) / 60) + ' minute(s)..';
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+	console.log (info);
 
-*/
-
-//var config = require('./config.js')
-var config = require('./config.js')
-
-var _redis = require("redis")
-var redis = _redis.createClient()
-var watchmen = require ('./lib/watchmen')
-
-/*main*/
-watchmen.log_info ('\nstarting watchmen...')
-watchmen.log_info ('reading configuration and queuing hosts for pinging...')
-
-var initial_delay=0;
-for (var i=0; i<config.hosts.length;i++){
-	var host = config.hosts[i];
-	if (host.enabled != false){
-		watchmen.log_info ('monitoring ' + host.name + ':')
-		for (var u=0;u<config.hosts[i].urls.length;u++){
-			initial_delay++;
-			if (host.urls[u].enabled != false){
-				host.urls[u].host = host
-				var ping = host.urls[u].ping_interval || host.ping_interval
-				watchmen.log_info (' -- queuing "' + host.urls[u].url + '".. ping every ' + ping + ' seconds...')
-				setTimeout (watchmen.processUrl, initial_delay * 400, host.urls[u], redis);
-			}
-			else{
-				watchmen.log_warning (' -- skipping url: ' + host.name + host.urls[u].url + ' (disabled entry)...')
-			}
-		}
+	if (state.prev_state.status === 'success' && config.notifications.enabled){
+		email_service.sendEmail(
+				service.alert_to,
+				service.url_info + ' is down!',
+				service.url_info + ' is down!. Reason: ' + state.error
+		);
 	}
-	else{
-		watchmen.log_warning ('skipping host: ' + host.name + ' (disabled entry)...')
+});
+
+watchmen.on('service_warning', function(service, state){
+
+	/*
+	//Do here any additional stuff when you get a warning
+
+	console.log (service.url_info + ' WARNING (' + state.elapsed_time + ' ms, avg: '
+			+ state.avg_response_time + ') ## ' + state.warnings + ' warnings');
+	*/
+
+});
+
+watchmen.on('service_back', function(service, state){
+	if (config.notifications.enabled){
+		email_service.sendEmail(
+				service.alert_to,
+				service.url_info + ' is back!',
+				service.url_info + ' ' +  service.msg
+		);
 	}
-}
+});
+
+watchmen.on('service_ok', function(service, state){
+	/*
+	//Do here any additional stuff when you get a successful response
+
+	console.log (service.url_info + ' responded OK! (' + state.elapsed_time + ' milliseconds, avg: '
+			+ state.avg_response_time + ')');
+  */
+});
+
+//----------------------------------------------------
+// Start watchmen
+//----------------------------------------------------
+watchmen.start();
+
+
+//----------------------------------------------------
+// Error handling
+//----------------------------------------------------
+process.on('uncaughtException', function(err) {
+	console.error('uncaughtException:');
+	console.error(err);
+});
 
 process.on('SIGINT', function () {
 	console.log('stopping watchmen..');
-	redis.quit();
+	storage.quit();
 	process.exit(0);
 });

@@ -1,17 +1,16 @@
 body {
-  padding-top: 50px;
+  padding-top: 60px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 .filter{
 	padding:8px;
-	float:left;
 }
 
 /*overview*/
 .overview {
-	padding:15px;
-	float:right;
+	text-align: right;
+	padding:10px;
 	font-size:1.5em;
 }
 
@@ -52,35 +51,21 @@ table tbody tr td.icon {
 table tbody tr td.icon span {display:none;}
 table tbody tr td.avgresponse {font-weight:bold;;}
 
-table .headerSortUp, table .headerSortDown {
-	background-color: #f5f5f5;
-	text-shadow: none;
-	border-width:1px 1px 0px 1px;
-	border-style:solid;
-	border-color:#c2c2c2;
-}
-
 /*error*/
-table tbody tr.error * {
-	font-weight: bold;
+table tbody tr.error .hosturl a {
 	color:red;
 }
 
 table tbody tr.error td.icon {
-	background: transparent url("/images/red.png") 5px 5px no-repeat;	
+	background: transparent url("/images/red.png") 5px 5px no-repeat;
 }
 
 /*ok*/
-table tbody tr.ok td.hosturl a {
+table tbody tr.success td.hosturl a {
 	color:green;
 }
-table tbody tr.ok td.icon {
-	background: transparent url("/images/green.png") 5px 5px no-repeat;	
-}
-
-/*warning*/
-table tr.warning td.icon {
-	background: transparent url("/images/yellow.png") 5px 5px no-repeat;	
+table tbody tr.success td.icon {
+	background: transparent url("/images/green.png") 5px 5px no-repeat;
 }
 
 /*disabled*/
@@ -90,26 +75,37 @@ table tr.disabled, table tr.disabled td.hosturl a {
 }
 
 table tr.disabled td.icon {
-	background: transparent url("/images/disabled.png") 5px 5px no-repeat;	
+	background: transparent url("/images/disabled.png") 5px 5px no-repeat;
 }
 
 table tr.disabled a.hosturl {
 	color:gray !important;
 }
 
-table.events td.msg{
-	width:70%;
-}
-
 a {
   color: #00B7FF;
 }
 
-.error, .failure {color:red;}
-.ok{color:green;}
+.error, .failure, .critical {color:red;}
+.success {color:green;}
 .warning, .warnings{color:orange;}
+
+.last_check{
+	font-size:11px;
+	color:gray;
+}
 
 img.status_icon{
 	max-width:35px;
 	max-height:25px;
+}
+
+footer{
+	color:gray;
+	padding:20px;
+	text-align: center;
+}
+
+footer a {
+	color:#c2c2c2;
 }

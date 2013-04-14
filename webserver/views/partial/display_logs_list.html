@@ -1,0 +1,25 @@
+<h3><%=log_type%></h3>
+<%if (logs.length) {%>
+	<table class="events table table-striped table-condensed">
+	<%
+	for (var i=0; i<logs.length;i++){
+		var log = logs[i];
+		%>
+		<tr>
+			<td>
+			<time class="timeago" datetime="<%=dateformat(log.timestamp)%>">
+				<%=dateformat(log.timestamp, 'ago')%><br />
+				<%=dateformat(log.timestamp, 'MMM D YYYY, hh:mm')%>
+				</time>
+			</td>
+			<td>
+				<span class="<%=log.status%>"><%=log.msg%></span>
+			</td>
+		</tr>
+		<%
+	}
+	%>
+	</table>
+<% } else {%>
+	<p>No <%=log_type%> logs found</p>
+<%}%>
