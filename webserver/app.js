@@ -1,32 +1,34 @@
 var express = require('express');
 var watchmen = require('../lib/watchmen');
-var app = express.createServer();
+var app = express();
 var storage_factory = require ('../lib/storage/storage_factory');
 var storage = storage_factory.get_storage_instance();
 var moment = require ('moment');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var errorHandler = require('errorhandler');
+var expressLayouts = require('express-ejs-layouts');
+var env = process.env.NODE_ENV || 'development';
 
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  app.register('.html', require("ejs")); //register .html extension with ejs view render
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-});
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.set('layout', 'layout.html');
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
+//register .html extension with ejs view render
+app.engine('.html', require('ejs').renderFile);
+app.use(expressLayouts);
 
-app.configure('production', function(){
-  app.use(express.errorHandler());
-});
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(methodOverride());
 
 //-----------------------------------------
 // Import routes
 //-----------------------------------------
 require('./routes/reporting').add_routes(app, storage);
+
+require('express-dynamic-helpers-patch')(app);
 
 var helpers = {
     dateformat : function (req, res) {
@@ -46,17 +48,40 @@ var helpers = {
 
 app.dynamicHelpers(helpers);
 
+app.use(express.static(__dirname + '/public'));
+
+if (env === 'development') {
+  app.use(errorHandler({ dumpExceptions: true, showStack: true }));
+}
+
+if (env === 'development') {
+  app.use(errorHandler());
+}
+
+
 //-----------------------------------------
 // Start server
 //-----------------------------------------
 var port = parseInt(process.argv[2], 10) || 3000;
-app.listen(port);
-if (app.address())
-  console.log("watchmen server listening on port %d in %s mode", app.address().port, app.settings.env);
-else
-  console.log ('something went wrong... couldn\'t listen to that port.');
+var server = app.listen(port, function () {
 
-process.on('SIGINT', function () {
-  console.log('stopping web server.. bye!');
-  process.exit(0);
+  if (server.address()) {
+    console.log("watchmen server listening on port %d in %s mode", port, app.settings.env);
+  } else {
+    console.log ('something went wrong... couldn\'t listen to that port.');
+  }
+
+  process.on('SIGINT', function () {
+    console.log('stopping web server.. bye!');
+
+    // Let connections drain...
+    server.close(function () {
+      process.exit(0);
+    });
+
+    // Kill it anyway if it stalls.
+    setTimeout(function () {
+      process.exit(0);
+    },500);
+  });
 });

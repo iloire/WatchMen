@@ -1,26 +1,57 @@
-<h4><%=log_type%> events</h4>
+<div class="col-md-6">
+  <h4>Critical events</h4>
 
-<%if (logs.length) {%>
-  <table class="events table table-striped table-condensed">
-  <%
-  for (var i=0; i<logs.length;i++){
-    var log = logs[i];
-    %>
-    <tr>
-      <td>
-        <time class="timeago" datetime="<%=dateformat(log.timestamp)%>">
-          <%=dateformat(log.timestamp, 'ago')%><br />
-          <%=dateformat(log.timestamp, 'MMM D YYYY, hh:mm')%>
-        </time>
-      </td>
-      <td>
-        <span class="<%=log.status%>"><%=log.msg%></span>
-      </td>
-    </tr>
+  <%if (critical_events.length) {%>
+    <table class="events table table-striped table-condensed">
     <%
-  }
-  %>
-  </table>
-<% } else {%>
-  <p>No <%=log_type%> logs found</p>
-<%}%>
+    for (var i=0; i<critical_events.length;i++){
+      var log = critical_events[i];
+      %>
+      <tr>
+        <td>
+          <time class="timeago" datetime="<%=dateformat(log.timestamp)%>">
+            <%=dateformat(log.timestamp, 'ago')%><br />
+            <%=dateformat(log.timestamp, 'MMM D YYYY, hh:mm')%>
+          </time>
+        </td>
+        <td>
+          <span class="<%=log.status%>"><%=log.msg%></span>
+        </td>
+      </tr>
+      <%
+    }
+    %>
+    </table>
+  <% } else {%>
+    <p>No Critical events found</p>
+  <%}%>
+</div>
+
+<div>
+  <h4>Warning events</h4>
+
+  <%if (warning_events.length) {%>
+    <table class="events table table-striped table-condensed">
+    <%
+    for (var i=0; i<warning_events.length;i++){
+      var log = warning_events[i];
+      %>
+      <tr>
+        <td>
+          <time class="timeago" datetime="<%=dateformat(log.timestamp)%>">
+            <%=dateformat(log.timestamp, 'ago')%><br />
+            <%=dateformat(log.timestamp, 'MMM D YYYY, hh:mm')%>
+          </time>
+        </td>
+        <td>
+          <span class="<%=log.status%>"><%=log.msg%></span>
+        </td>
+      </tr>
+      <%
+    }
+    %>
+    </table>
+  <% } else {%>
+    <p>No Warning events found</p>
+  <%}%>
+</div>

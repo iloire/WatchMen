@@ -115,13 +115,7 @@
   </p>
 
   <div class="section events row">
-    <div class="col-md-6">
-    <%-partial ('partial/display_logs_list', {logs:critical_events, log_type:'Critical'})%>
-    </div>
-
-    <div class="col-md-6">
-    <%-partial ('partial/display_logs_list', {logs:warning_events, log_type:'Warning'})%>
-    </div>
+    <%- include partial/display_logs_list.html %>
   </div>
 
 </div>
