@@ -1,0 +1,14 @@
+watchmenweb:
+  build: ./
+  ports:
+    - "3000:3000"
+  links:
+    - redis
+  command: node webserver/app.js
+watchmenserver:
+  build: ./
+  command: node server.js
+  links:
+    - redis
+redis:
+  image: redis
