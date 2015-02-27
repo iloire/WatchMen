@@ -220,6 +220,15 @@ Run the tests with mocha:
     $ npm test
 
 
+# Run with docker
+
+You must have docker and fig.sh installed.
+
+    $ fig up
+
+It will start 3 containers : redis, node with watchmen server and node with watchmen webapp.
+
+
 ## History
 
 **1.1.1**
