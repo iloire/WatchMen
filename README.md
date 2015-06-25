@@ -75,6 +75,7 @@ Most of the properties can be defined either at host or service level. Service l
     {
       name : 'home',
       method: 'get',
+      auth:'username:password', //optional
       url : '/',
       //expected status code and expected string to be found in the response (otherwise will fail)
       expected: {statuscode: 200, contains: 'A blog about node.js and express.js'}
@@ -82,6 +83,7 @@ Most of the properties can be defined either at host or service level. Service l
     {
       name : 'contact page',
       method: 'get',
+      auth:'username:password', //optional
       url : '/contact',
       expected: {statuscode: 200, contains: 'Contact page'}
     }
