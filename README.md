@@ -33,7 +33,7 @@ Get redis from [redis.io](http://redis.io/download) and install it.
 
 ## Install watchmen
 
-    git clone git@github.com:iloire/watchmen.git
+    git clone https://github.com/iloire/watchmen.git
     cd WatchMen
 
     $ npm install
