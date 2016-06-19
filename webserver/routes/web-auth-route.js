@@ -54,7 +54,7 @@ module.exports = (function (){
       app.use(passport.session());
 
       app.get('/auth/google', passport.authenticate('google', {
-        scope: 'https://www.google.com/m8/feeds https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
+        scope: ['profile', 'email', 'https://www.google.com/m8/feeds']
       }));
 
       app.get('/auth/google/callback', passport.authenticate('google', {
