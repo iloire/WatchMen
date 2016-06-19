@@ -151,7 +151,7 @@ Have a look at the /config folder for more details, but the general parameters a
 ```sh
 export WATCHMEN_BASE_URL='http://watchmen.letsnode.com'
 export WATCHMEN_WEB_PORT='8080'
-export WATCHMEN_ADMINS='admin@domain.com'
+export WATCHMEN_ADMINS=admin@domain.com
 export WATCHMEN_GOOGLE_ANALYTICS_ID='your-GA-ID'
 ```
 
@@ -168,8 +168,8 @@ export WATCHMEN_BASE_URL='http://watchmen.letsnode.com/'
 You will also need to set the Google client ID and secret using ``env`` variables accordingly. (Login into https://console.developers.google.com/ to create them first)
 
 ```sh
-export WATCHMEN_GOOGLE_CLIENT_ID='<your key>'
-export WATCHMEN_GOOGLE_CLIENT_SECRET='<your secret>'
+export WATCHMEN_GOOGLE_CLIENT_ID=<your key>
+export WATCHMEN_GOOGLE_CLIENT_SECRET=<your secret>
 ```
 
 ## Disabling authentication
