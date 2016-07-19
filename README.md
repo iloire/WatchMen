@@ -165,7 +165,7 @@ Make sure you set the right hostname so the OAuth dance can be negociated correc
 export WATCHMEN_BASE_URL='http://watchmen.letsnode.com/'
 ```
 
-You will also need to set the Google client ID and secret using ``env`` variables accordingly. (Login into https://console.developers.google.com/ to create them first)
+You will also need to set the Google client ID and secret using ``env`` variables accordingly. (Login into https://console.developers.google.com/ to create them first, you will need to add `Google+ API` to your APIs).
 
 ```sh
 export WATCHMEN_GOOGLE_CLIENT_ID='<your key>'
