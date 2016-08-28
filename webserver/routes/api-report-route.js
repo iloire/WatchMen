@@ -22,6 +22,35 @@ module.exports.getRoutes = function (storage){
   }
 
   /**
+   * Get latest service outages.
+   */
+
+  router.get('/services/outages', function (req, res) {
+    // Creating request options and setting default values when necessary.
+    var options = {
+      since: req.query.since ? req.query.since : Date.now() - 3600,
+      maxItems: req.query['max-items'] ? req.query['max-items'] : 10,
+      maxItemsPerService: req.query['max-items-per-service'] ? req.query['max-items-per-service'] : 10,
+      grouping: req.query.grouping ? parseInt(req.query.grouping) : 0
+    };
+
+    storage.getServices({}, function (err, services) {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({error: err});
+      }
+      var filteredServices = accessFilter.filterServices(services, req.user);
+      storage.getServicesOutagesSince(filteredServices, options, function (err, outages) {
+        if(err) {
+          console.error(err);
+          return res.statusCode(500).json({error: err});
+        }
+        res.json(outages);
+      })
+    });
+  });
+
+  /**
    * Load service report
    */
 
