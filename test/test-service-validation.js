@@ -10,7 +10,7 @@ describe('service validator', function () {
       name: 'my service',
       interval: 60 * 1000,
       failureInterval: 20 * 1000,
-      url: 'http://apple.com',
+      url: 'http://apple.dev',
       port: 443,
       timeout: 10000,
       warningThreshold: 3000,

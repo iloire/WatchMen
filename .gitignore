@@ -7,3 +7,5 @@ node_modules/
 webserver/public/bower_components/
 terraform/digital-ocean/*.tfstate
 terraform/digital-ocean/*.tfstate.backup
+npm-debug.log
+*.bak

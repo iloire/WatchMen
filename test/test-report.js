@@ -1,6 +1,8 @@
 var assert = require('assert');
 var async = require('async');
 var sinon = require('sinon');
+var storageFactory = require ('../lib/storage/storage-factory');
+var redisStorage = storageFactory.getStorageInstance('test');
 var redisStorage_class = require('../lib/storage/providers/redis');
 var reportService = require('../lib/reporter');
 var populator = require('./lib/util/populator');
@@ -15,7 +17,8 @@ describe('reporting', function () {
 
   var services;
   var clock;
-  var storage = new redisStorage_class({port: 6666, host: '127.0.0.1', db: 0});
+  redisStorage.db = 0;
+  var storage = new redisStorage_class(redisStorage);
   var reporter;
   var INITIAL_TIME = 946684800000;
 
