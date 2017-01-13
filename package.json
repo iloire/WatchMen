@@ -3,8 +3,8 @@
   "name": "watchmen",
   "scripts": {
     "start": "concurrently \"node run-monitor-server.js\" \"node run-web-server.js\"",
-	"start:mon": "node run-monitor-server.js",
-	"start:svr": "node run-web-server.js",
+    "start:mon": "node run-monitor-server.js",
+    "start:svr": "node run-web-server.js",
     "start:dev": "cross-env WATCHMEN_WEB_NO_AUTH=true concurrently \"node run-monitor-server.js\" \"node run-web-server.js\"",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000",
     "postcoverage": "kill `cat test/redis.pid`",
@@ -57,10 +57,11 @@
     "stream-spigot": "^3.0.5",
     "timestream-aggregates": "^0.1.7",
     "validator": "^3.39.0",
-    "watchmen-ping-http-contains": "^0.0.2",
+	"watchmen-ping-http-contains": "^0.0.2",
     "watchmen-ping-http-head": "^0.2.0",
     "watchmen-plugin-aws-ses": "0.0.1",
-    "watchmen-plugin-console": "0.2.0"
+    "watchmen-plugin-console": "0.2.0",
+    "watchmen-ping-icmp": "file:plugins\\watchmen-ping-icmp"
   },
   "devDependencies": {
     "assert": "^1.3.0",
