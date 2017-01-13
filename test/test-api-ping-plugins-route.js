@@ -43,7 +43,7 @@ describe('ping plugins route', function () {
             .expect(200)
             .send()
             .end(function (err, res) {
-              assert(res.body.length > 2);
+              assert(res.body.length >= 2);
               var plugins = res.body.sort(function(a, b){ return a.name > b.name; });  
               assert(plugins.some(function(e) { return e.name == 'http-contains'; }));
               assert(plugins.some(function(e) { return e.name == 'http-head'; }));
