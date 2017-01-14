@@ -2,7 +2,6 @@
 *.less linguist-language=LESS
 *.css linguist-vendored
 client/vendors/* linguist-vendored
-*.html linguist-vendored
 plugins/* linguist-vendored
 coverage/* linguist-documentation
 docs/* linguist-documentation
