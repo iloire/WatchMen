@@ -1,8 +1,16 @@
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then brew update   ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then brew install redis  ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then redis-server --daemonize yes ; fi
+  
 language: node_js
+
 sudo: false
+
 branches:
   only:
     - master
+
 node_js:
   - '4'
   - '5'
@@ -29,12 +37,12 @@ cache:
     - node_modules	
   
 before_script:
-  - npm install -g eslint
-  - npm install -g gulp
-  - npm install -g grunt-cli
-  - npm install -g bower
+  - #npm install -g eslint
+  - #npm install -g gulp
+  - #npm install -g grunt-cli
+  - #npm install -g bower
   - #echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-  - bower install -f  
+  - #bower install -f  
   
 after_success:
   - #npm run coveralls
