@@ -8,12 +8,14 @@
     "start:dev": "cross-env WATCHMEN_WEB_NO_AUTH=true concurrently \"node run-monitor-server.js\" \"node run-web-server.js\"",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000",
     "build": "gulp",
+    "watch": "forever node_modules/gulp/bin/gulp.js watch",
     "postinstall": "bower install && npm run build",
     "postcoverage": "kill `cat test/redis.pid`",
     "posttest": "kill `cat test/redis.pid`",
     "precoverage": "redis-server test/redis.test.conf",
     "pretest": "redis-server test/redis.test.conf",
-    "test": "mocha -R list test/*.js"
+    "test": "mocha -R list test/*.js",
+	"test:dev": "mocha -R list test/*.js"
   },
   "description": "A simple service monitor",
   "version": "3.3.1",
@@ -69,6 +71,7 @@
     "bower": ">=1.8.0",
     "del": ">=2.2.2",
     "faker": "^3.1.0",
+    "forever": "^0.15.3",
     "gulp": "^3.9.1",
     "gulp-clean-css": ">=2.0.0",
     "gulp-concat": ">=2.6.1",
