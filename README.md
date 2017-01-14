@@ -84,6 +84,8 @@ redis-server redis.conf
 node run-monitor-server.js
 node run-web-server.js
 ```
+or just start your redis server
+
 ## Development workflows
 
 ### start hacking
