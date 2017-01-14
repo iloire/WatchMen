@@ -3,6 +3,7 @@ var plugins = require('gulp-load-plugins')();
 var mainBowerFiles = require('main-bower-files');
 var del = require('del');
 var runSequence = require('run-sequence');
+//var addsrc = require('gulp-add-src');
 
 function js(shouldMinify) {
   return gulp.src(mainBowerFiles().concat([ // not taking wildcards
@@ -11,19 +12,23 @@ function js(shouldMinify) {
     './webserver/public/js/directives/**',
     './webserver/public/js/**'
   ]))
-      .pipe(plugins.filter('*.js'))
+      .pipe(plugins.filter('**/*.js'))
+	  .pipe(plugins.sourcemaps.init())
       .pipe(plugins.concat('scripts.js'))
       .pipe(plugins.if(shouldMinify, plugins.ngAnnotate()))
       .pipe(plugins.if(shouldMinify, plugins.uglify()))
+	  .pipe(plugins.sourcemaps.write())
       .pipe(gulp.dest('./webserver/public/build'));
 }
 
 function css(shouldMinify) {
-  return gulp.src(mainBowerFiles().concat(['./webserver/public/less/*.less']))
-      .pipe(plugins.filter(['*.css', '*.less']))
-      .pipe(plugins.less())
+  return gulp.src(mainBowerFiles().concat(['./webserver/public/less/main.less']))
+      .pipe(plugins.filter('**/*.+(less|css)')) 
+	  .pipe(plugins.sourcemaps.init())
+	  .pipe(plugins.less())
       .pipe(plugins.concat('style.css'))
-      .pipe(plugins.if(shouldMinify, plugins.minifyCss({keepBreaks: true})))
+      .pipe(plugins.if(shouldMinify, plugins.cleanCss({keepBreaks: true})))
+	  .pipe(plugins.sourcemaps.write())
       .pipe(gulp.dest('./webserver/public/build'));
 }
 
@@ -50,8 +55,9 @@ gulp.task('lint', function () {
     './scripts/**/*.js',
     './*.js'
   ])
-      .pipe(plugins.jshint())
-      .pipe(plugins.jshint.reporter('default'));
+      .pipe(eslint())
+      .pipe(eslint.format())
+      .pipe(eslint.failAfterError());
 });
 
 gulp.task('js-dev', function () {
@@ -70,7 +76,11 @@ gulp.task('build', function () {
   return runSequence('clean', ['copy-fonts', 'js-prod', 'css-prod']);
 });
 
-gulp.task('watch', function () {
+gulp.task('build:dev', function () {
+  return runSequence('clean', ['copy-fonts', 'js-dev', 'css-prod']);
+});
+
+gulp.task('watch', ['build:dev'], function () {
   gulp.watch('./webserver/public/bower_components/**/*', ['css-prod', 'js-dev']);
   gulp.watch('./webserver/public/js/**', ['js-dev']);
   gulp.watch('./webserver/public/less/*', ['css-prod']);
