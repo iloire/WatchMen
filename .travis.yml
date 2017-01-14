@@ -1,6 +1,40 @@
 language: node_js
-
+sudo: false
+branches:
+  only:
+    - master
 node_js:
-  - 6
-  - 5
-  - 4
+  - '4'
+  - '5'
+  - '6'
+  - '7'
+os:
+  - linux
+  - osx
+
+services:
+  - mongodb
+  - redis-server
+  - docker
+  
+env:
+  - NODE_ENV=testing
+
+cache:
+  directories:
+    - $HOME/.npm
+    - ~/.npm
+    - ~/.yarn-cache
+    - travis_phantomjs
+    - node_modules	
+  
+before_script:
+  - npm install -g eslint
+  - npm install -g gulp
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - #echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - bower install -f  
+  
+after_success:
+  - #npm run coveralls
