@@ -41,7 +41,6 @@ cache:
     - node_modules	
   
 before_script:
-  - npm install codecov
   - #npm install -g gulp
   - #npm install -g grunt-cli
   - #npm install -g bower
@@ -49,5 +48,8 @@ before_script:
   - #bower install -f  
   
 after_success:
+  - npm install codecov
   - bash <(curl -s https://codecov.io/bash)
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < coverage/lcov.info  
   - #npm run coveralls
