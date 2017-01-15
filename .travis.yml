@@ -48,6 +48,7 @@ before_script:
   - #bower install -f  
   
 after_success:
+  - npm run coverage
   - npm install codecov
   - bash <(curl -s https://codecov.io/bash)
   - npm install -g codeclimate-test-reporter
