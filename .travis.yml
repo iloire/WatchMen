@@ -10,6 +10,8 @@ sudo: false
 addons:
     code_climate:
         repo_token: 314c0020222b431c924559c453a85c248ee324d91c8746a154399e97367940a7
+	codecov:
+		token: 1f89ebf3-c7d2-4b18-8136-fe0943a1741d
 
 branches:
   only:
