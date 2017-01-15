@@ -7,6 +7,10 @@ language: node_js
 
 sudo: false
 
+addons:
+    code_climate:
+        repo_token: 314c0020222b431c924559c453a85c248ee324d91c8746a154399e97367940a7
+
 branches:
   only:
     - master
