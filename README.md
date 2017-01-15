@@ -8,8 +8,7 @@
 [![david devDependency](https://img.shields.io/david/dev/iloire/watchmen.svg)](https://david-dm.org/iloire/watchmen)
 [![david optionalDependency](https://img.shields.io/david/optional/iloire/watchmen.svg)](https://david-dm.org/iloire/watchmen)
 [![david peerDependency](https://img.shields.io/david/peer/iloire/watchmen.svg)](https://david-dm.org/iloire/watchmen)
-[![Known Vulnerabilities](https://snyk.io/test/github/iloire/watchmen/badge.svg)](https://snyk.io/test/github/iloire/watchmen)
-
+[![Known Vulnerabilities](https://snyk.io/test/github/iloire/watchmen/badge.svg)](https://snyk.io/test/github/iloire/watchmen)[![NSP Status](https://nodesecurity.io/orgs/hanshammel/projects/bdaf4089-653d-4f30-a1d5-df4807577ca8/badge)](https://nodesecurity.io/orgs/hanshammel/projects/bdaf4089-653d-4f30-a1d5-df4807577ca8)
 
 - [What is watchmen?](#what-is-watchmen)
 - [Demo](#demo)
