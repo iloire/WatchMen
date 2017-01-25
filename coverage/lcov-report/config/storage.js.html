@@ -1,31 +1,49 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for config/storage.js</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../prettify.css">
-    <link rel="stylesheet" href="../base.css">
+    <title>Code coverage report for config\storage.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
-        div.coverage-summary .sorter {
+        .coverage-summary .sorter {
             background-image: url(../sort-arrow-sprite.png);
         }
     </style>
 </head>
 <body>
-<div class="header high">
-    <h1>Code coverage report for <span class="entity">config/storage.js</span></h1>
-    <h2>
-        Statements: <span class="metric">100% <small>(1 / 1)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">100% <small>(12 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">100% <small>(0 / 0)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">100% <small>(1 / 1)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
-    </h2>
-    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">config/</a> &#187; storage.js</div>
-</div>
-<div class="body">
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">config/</a> storage.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>1/1</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>18/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>1/1</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
-<tr><td class="line-count">1
+<tr><td class="line-count quiet">1
 2
 3
 4
@@ -60,7 +78,25 @@
 33
 34
 35
-36</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -95,14 +131,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">exports = module.exports = {
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">module.exports = {
 &nbsp;
   production: {
     provider : 'redis',
     options : {
       'redis' : {
         port: process.env.WATCHMEN_REDIS_PORT_PRODUCTION || 1216,
-        host: '127.0.0.1',
+        host: process.env.WATCHMEN_REDIS_ADDR_PRODUCTION || '127.0.0.1',
         db: process.env.WATCHMEN_REDIS_DB_PRODUCTION || 1
       }
     }
@@ -112,8 +166,8 @@
     provider : 'redis',
     options : {
       'redis' : {
-        port: process.env.WATCHMEN_REDIS_PORT_DEVELOPMENT || 1216,
-        host: '127.0.0.1',
+        port: process.env.WATCHMEN_REDIS_PORT_DEVELOPMENT || 6379,
+        host: process.env.WATCHMEN_REDIS_ADDR_DEVELOPMENT || '127.0.0.1',
         db: process.env.WATCHMEN_REDIS_DB_DEVELOPMENT || 2
       }
     }
@@ -123,19 +177,39 @@
     provider : 'redis',
     options : {
       'redis' : {
-        port: process.env.WATCHMEN_REDIS_PORT_TEST || 6666,
-        host: '127.0.0.1',
+        port: process.env.WATCHMEN_REDIS_PORT_TEST || 6379,
+        host: process.env.WATCHMEN_REDIS_ADDR_TEST || '127.0.0.1',
         db: process.env.WATCHMEN_REDIS_DB_TEST || 1
       }
     }
+	/*
+	,retry_strategy: function (options) {
+        if (options.error &amp;&amp; options.error.code === 'ECONNREFUSED') {
+            // End reconnecting on a specific error and flush all commands with a individual error
+            return new Error('The server refused the connection');
+        }
+        if (options.total_retry_time &gt; 1000 * 60 * 60) {
+            // End reconnecting after a specific timeout and flush all commands with a individual error
+            return new Error('Retry time exhausted');
+        }
+        if (options.times_connected &gt; 10) {
+            // End reconnecting with built in error
+            return undefined;
+        }
+        // reconnect after
+        return Math.min(options.attempt * 100, 3000);
+    }
+	*/
   }
 &nbsp;
 };</pre></td></tr>
 </table></pre>
-
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jan 14 2017 09:09:15 GMT+0100 (Mitteleuropäische Zeit)
 </div>
-<div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jul 04 2015 13:46:27 GMT+0200 (CEST)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>

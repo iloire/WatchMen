@@ -1,6 +1,17 @@
 # watchmen: a service monitor for node.js
 
 [![Build Status](https://secure.travis-ci.org/iloire/watchmen.png?branch=master)](http://travis-ci.org/iloire/watchmen)
+[![Inline docs](http://inch-ci.org/github/iloire/watchmen.svg?branch=master)](http://inch-ci.org/github/iloire/watchmen)
+[![star this repo](http://githubbadges.com/star.svg?user=HansHammel&repo=watchmen&style=flat&color=fff&background=007ec6)](https://github.com/iloire/watchmen)
+[![fork this repo](http://githubbadges.com/fork.svg?user=HansHammel&repo=watchmen&style=flat&color=fff&background=007ec6)](https://github.com/iloire/watchmen/fork)
+[![david dependency](https://img.shields.io/david/iloire/watchmen.svg)](https://david-dm.org/iloire/watchmen)
+[![david devDependency](https://img.shields.io/david/dev/iloire/watchmen.svg)](https://david-dm.org/iloire/watchmen)
+[![david optionalDependency](https://img.shields.io/david/optional/iloire/watchmen.svg)](https://david-dm.org/iloire/watchmen)
+[![david peerDependency](https://img.shields.io/david/peer/iloire/watchmen.svg)](https://david-dm.org/iloire/watchmen)
+[![Known Vulnerabilities](https://snyk.io/test/github/iloire/watchmen/badge.svg)](https://snyk.io/test/github/iloire/watchmen)[![NSP Status](https://nodesecurity.io/orgs/hanshammel/projects/bdaf4089-653d-4f30-a1d5-df4807577ca8/badge)](https://nodesecurity.io/orgs/hanshammel/projects/bdaf4089-653d-4f30-a1d5-df4807577ca8) 
+[![Code Climate](https://codeclimate.com/github/HansHammel/watchmen/badges/gpa.svg)](https://codeclimate.com/github/HansHammel/watchmen)
+[![Test Coverage](https://codeclimate.com/github/HansHammel/watchmen/badges/coverage.svg)](https://codeclimate.com/github/HansHammel/watchmen/coverage)
+
 
 - [What is watchmen?](#what-is-watchmen)
 - [Demo](#demo)
@@ -53,66 +64,93 @@ Get redis from [redis.io](http://redis.io/download) and install it.
 ### Installing watchmen
 
 Clone the repo by using
-
-    $ git clone git@github.com:iloire/watchmen.git
-
+```bash
+git clone git@github.com:iloire/watchmen.git
+```
 or
-
-    $git clone https://github.com/iloire/watchmen.git
+```bash
+git clone https://github.com/iloire/watchmen.git
+```
 
 Then install the required dependencies using ``npm``
-
-    $ cd watchmen
-    $ npm install
+```bash
+cd watchmen
+npm install
+```
 
 ## Running and stopping watchmen
 
 Make sure you have `redis-server` in your `PATH`. Then you can run watchmen services:
+```bash
+redis-server redis.conf
+node run-monitor-server.js
+node run-web-server.js
+```
+or just start your redis server
 
-    $ redis-server redis.conf
-    $ node run-monitor-server.js
-    $ node run-web-server.js
+## Development workflows
 
-## Development workflow
+### start hacking
 
-Make sure bower is installed globally:
+starts two scripts run-monitor-server.js (the bare server) and run-web-server.js (the web ui) with WATCHMEN_WEB_NO_AUTH=true (disabled login)
+```bash
+npm run start:dev
+```
 
-    $ npm install -g bower
+### other starting options
+```bash
+npm run start
+npm run start:mon
+npm run start:svr
+```
 
 ### Fetching bower dependencies
-
-    $ bower install
+```bash
+npm run bower:install
+```
 
 ### Re-building watchmen assets
-
-    $ gulp build
+```bash
+npm run build
+```
+or
+```bash
+npm run build:dev
+```
 
 ### Dev watch
-
-    $ gulp watch
+```bash
+npm run watch
+```
 
 ### Running tests
-
-See below.
+```bash
+npm test
+```
+See below for more.
 
 ## Managing your node processes with pm2
 
 Install pm2:
-
-    $ npm install -g pm2
-
+```bash
+npm install -g pm2
+```
 Configure env variables:
-
-    $ export WATCHMEN_WEB_PORT=8080
+```bash
+export WATCHMEN_WEB_PORT=8080
+```
+or in package.json using cross-env see "start:dev" script
 
 Run servers:
-
-    $ pm2 start run-monitor-server.js
-    $ pm2 start run-web-server.js
+```bash
+pm2 start run-monitor-server.js
+pm2 start run-web-server.js
+```
 
 Server list:
-
-    $ pm2 list
+```bash
+pm2 list
+```
 
 ![List of pm2 services](https://github.com/iloire/watchmen/raw/master/screenshots/pm2-01.png)
 
@@ -123,15 +161,15 @@ service. On Ubuntu systems, this allows the usage of `service watchmen start`.
 
 Watchmen already include a `Procfile` so you can also manage with `nf`.
 
-```
-$ npm install -g foreman
-$ nf start
+```bash
+npm install -g foreman
+nf start
 ```
 
 To export as an Upstart script using the environment variables in a `.env` file:
 
-```
-$ PATH="/home/user/.nvm/versions/v5.1.0/bin:$PATH" nf export -o /etc/init -a watchmen
+```bash
+PATH="/home/user/.nvm/versions/v5.1.0/bin:$PATH" nf export -o /etc/init -a watchmen
 ```
 
 You can run this without the `-o /etc/init` flag and move the files to this
@@ -148,7 +186,7 @@ Config is set through ``env`` variables.
 
 Have a look at the /config folder for more details, but the general parameters are:
 
-```sh
+```bash
 export WATCHMEN_BASE_URL='http://watchmen.letsnode.com'
 export WATCHMEN_WEB_PORT='8080'
 export WATCHMEN_ADMINS='admin@domain.com'
@@ -161,13 +199,13 @@ Watchmen uses Google Auth through passportjs for authentication. If your google 
 
 Make sure you set the right hostname so the OAuth dance can be negociated correctly:
 
-```sh
+```bash
 export WATCHMEN_BASE_URL='http://watchmen.letsnode.com/'
 ```
 
 You will also need to set the Google client ID and secret using ``env`` variables accordingly. (Login into https://console.developers.google.com/ to create them first)
 
-```sh
+```bash
 export WATCHMEN_GOOGLE_CLIENT_ID='<your key>'
 export WATCHMEN_GOOGLE_CLIENT_SECRET='<your secret>'
 ```
@@ -176,7 +214,7 @@ export WATCHMEN_GOOGLE_CLIENT_SECRET='<your secret>'
 
 If you want to disable authentication access and let anyone access and edit your services use:
 
-```
+```bash
 export WATCHMEN_WEB_NO_AUTH='true'
 ```
 
@@ -221,8 +259,8 @@ PingService.prototype.getDefaultOptions = function(){
 
 #### b) npm install it in watchmen:
 
-```sh
-     npm install watchmen-ping-smtp
+```bash
+npm install watchmen-ping-smtp
 ```
 
 #### c) create a service that uses that ping service
@@ -237,7 +275,7 @@ https://github.com/iloire/watchmen-plugin-aws-ses
 
 #### Settings
 
-```sh
+```bash
 export WATCHMEN_AWS_FROM='your@email'
 export WATCHMEN_AWS_REGION='your AWS region'
 export WATCHMEN_AWS_KEY='your AWS Key'
@@ -378,7 +416,7 @@ service:<serviceId>:failurecount - number of consecutive pings failures (to dete
 
 ### Configuration
 
-```sh
+```bash
 export WATCHMEN_REDIS_PORT_PRODUCTION=1216
 export WATCHMEN_REDIS_DB_PRODUCTION=1
 
@@ -388,14 +426,14 @@ export WATCHMEN_REDIS_DB_DEVELOPMENT=2
 
 ## Using fake data for development
 
-```sh
+```bash
 cd scripts
 sh populate-dummy-data-120days.sh # will populate data for a 120 day period
 ```
 
 or
 
-```sh
+```bash
 sh populate-dummy-data-30days.sh
 ```
 
@@ -412,7 +450,7 @@ Edit ``docker-compose.env`` and set up the configuration.
 
 Then, to build and run Watchmen, run the following:
 
-```
+```bash
 docker-compose build
 docker-compose up
 ```
@@ -437,19 +475,19 @@ Terraform will create a droplet based on Ubuntu with the necessary packages, com
 
 ## Tests
 
-```sh
+```bash
 $ npm test
 ```
 
 ### Test coverage
 
-```sh
+```bash
 $ npm run coverage
 ```
 
 Then check the coverage reports:
 
-```sh
+```bash
 $ open coverage/lcov-report/lib/index.html
 ```
 
@@ -459,7 +497,7 @@ $ open coverage/lcov-report/lib/index.html
 
 watchmen uses [debug](https://www.npmjs.com/package/debug)
 
-```sh
+```bash
 set DEBUG=*
 ```
 

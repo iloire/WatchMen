@@ -20,7 +20,7 @@ describe('watchmen', function () {
     clock = sinon.useFakeTimers(INITIAL_TIME);
     service = {
       id: 'X34dF',
-      host: {host: 'www.correcthost.com', port: '80', name: 'test'},
+      host: {host: 'www.correcthost.dev', port: '80', name: 'test'},
       url: '/',
       interval: 4 * 1000,
       failureInterval: 5 * 1000,
@@ -281,7 +281,7 @@ describe('watchmen', function () {
     it('should add service and start it', function(done){
       var newService = {
         id: 'X3333',
-        host: {host: 'www.new-service.com', port: '80', name: 'test'},
+        host: {host: 'www.new-service.dev', port: '80', name: 'test'},
         url: '/',
         interval: 4 * 1000,
         failureInterval: 5 * 1000,
