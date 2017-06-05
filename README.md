@@ -56,7 +56,7 @@ Clone the repo by using
 
 or
 
-    $git clone https://github.com/iloire/watchmen.git
+    $ git clone https://github.com/iloire/watchmen.git
 
 Then install the required dependencies using ``npm``
 
@@ -249,6 +249,10 @@ https://www.npmjs.com/package/watchmen-plugin-nodemailer
 ### Slack Notifications plugin (third party contribution)
 
 https://www.npmjs.com/package/watchmen-plugin-slack
+
+### Telegram Notifications plugin (third party contribution)
+
+https://github.com/vlaad360/watchmen-plugin-telegram
 
 ### Console output plugin (provided)
 
