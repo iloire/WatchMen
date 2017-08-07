@@ -1,6 +1,4 @@
-var moment = require('moment');
 var express = require('express');
-var debug = require('debug')('service-route');
 var serviceValidator = require('./../../lib/service-validator');
 var accessFilter = require('./../../lib/service-access-filter');
 var config = require('../../config/web');
