@@ -168,5 +168,19 @@ module.exports.getRoutes = function (storage) {
     });
   });
 
+  /**
+   * Load tags
+   *
+   */
+  router.get('/tags', requireAdmin, function (req, res) {
+      storage.getTags(function (err, tags) {
+          if (err) {
+              console.error(err);
+              return res.status(500).json({error: err});
+          }
+          res.json(tags);
+      });
+  });
+
   return router;
 };
