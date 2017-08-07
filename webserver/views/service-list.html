@@ -4,7 +4,6 @@
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     <span>{{errorLoadingServices}}</span>
 </div>
-
 <div class="container-fluid" ng-show="!loading">
     <div class="row">
         <div class="filter-container">
@@ -22,6 +21,17 @@
             <% } else {%>
             <input ng-model="query" class="query form-control" placeholder="filter by host name"/>
             <% } %>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="btn-group">
+                        <button ng-repeat="tag in tags"
+                                type="button"
+                                class="btn btn-default"
+                                ng-class={'btn-primary':isActiveTag(tag)}
+                                ng-click="toggleTag(tag)">{{ tag }}</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <table ng-table="tableParams" class="table-services table sorted table-striped table-condensed">

@@ -86,16 +86,23 @@
             <div class="form-group">
                 <label for="service-restrictedTo" class="col-sm-2 control-label">Restricted to</label>
                 <div class="col-sm-6">
-                    <input type="text" ng-model="service.restrictedTo" type="checkbox" class="form-control" id="service-restrictedTo" placeholder="myemail@mydomain.com, admin@myotherdomain.com">
+                    <input ng-model="service.restrictedTo" class="form-control" id="service-restrictedTo" placeholder="myemail@mydomain.com, admin@myotherdomain.com">
                 </div>
                 <div class="descr col-sm-4">List of restricted emails to have access to this service stats</div>
             </div>
             <div class="form-group">
                 <label for="service-alertTo" class="col-sm-2 control-label">Alert to</label>
                 <div class="col-sm-6">
-                    <input type="text" ng-model="service.alertTo" type="checkbox" class="form-control" id="service-alertTo" placeholder="myemail@mydomain.com, admin@myotherdomain.com">
+                    <input ng-model="service.alertTo" class="form-control" id="service-alertTo" placeholder="myemail@mydomain.com, admin@myotherdomain.com">
                 </div>
                 <div class="descr col-sm-4">List of emails to alert to</div>
+            </div>
+            <div class="form-group">
+                <label for="service-alertTo" class="col-sm-2 control-label">Tags</label>
+                <div class="col-sm-6">
+                    <input ng-model="service.tags" class="form-control" id="service-tags" placeholder="production, develop, apache, nginx">
+                </div>
+                <div class="descr col-sm-4">List of tags to associate this service</div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">

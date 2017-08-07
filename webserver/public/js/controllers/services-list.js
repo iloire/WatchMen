@@ -14,6 +14,7 @@
           $timeout,
           Report,
           Service,
+          Tags,
           usSpinnerService,
           ngTableUtils
       ) {
@@ -33,7 +34,9 @@
 
         function reload(doneCb, errorHandler) {
           Report.clearCache();
-          $scope.services = Report.query(function (services) {
+          $scope.services = Report.query({
+              tags: $scope.currentTags
+          }, function (services) {
             $scope[key] = services;
             $scope.tableParams.reload();
 
@@ -41,6 +44,11 @@
             transition.loaded();
             doneCb();
           }, errorHandler);
+
+          Tags.query(function(tags) {
+            $scope.tags = tags;
+          })
+
         }
 
         var transition = {
@@ -57,6 +65,7 @@
         var key = 'tableServicesData';
         $scope[key] = [];
         $scope.tableParams = ngTableUtils.createngTableParams(key, $scope, $filter);
+        $scope.currentTags = [];
 
         var filterToMeCheckboxIsPresent = document.getElementById('filterRestrictedToMe');
         if (filterToMeCheckboxIsPresent && window.localStorage) {
@@ -104,6 +113,29 @@
               });
             });
           }
+        };
+
+          /**
+           * Defines if a tag is currently active
+           * @param tag
+           * @returns {boolean}
+           */
+        $scope.isActiveTag = function(tag) {
+          return $scope.currentTags.includes(tag);
+        };
+
+        $scope.toggleTag = function(tag) {
+          if ($scope.currentTags.includes(tag)) {
+            $scope.currentTags = $scope.currentTags.filter(function(curTag) {
+              return curTag !== tag;
+            })
+          } else {
+            $scope.currentTags.push(tag);
+          }
+          reload(function () {
+          }, function () {
+            $scope.errorLoadingServices = "Error loading data from remote server";
+          });
         };
 
         reload(scheduleNextTick, loadServicesErrHandler);
