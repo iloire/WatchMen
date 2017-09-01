@@ -1,0 +1,30 @@
+{
+  "name": "watchmen-ping-http-contains",
+  "version": "0.0.2",
+  "description": "Ping service for watchmen. Check if the http response contains certain content",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iloire/watchmen-ping-http-contains.git"
+  },
+  "scripts": {
+    "test": "mocha -R list -b test/*.js"
+  },
+  "keywords": [
+    "watchmen",
+    "ping",
+    "contains"
+  ],
+  "author": "Ivan Loire",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iloire/watchmen-ping-http-contains/issues"
+  },
+  "homepage": "https://github.com/iloire/watchmen-ping-http-contains#readme",
+  "dependencies": {
+    "request": "^2.55.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5"
+  }
+}

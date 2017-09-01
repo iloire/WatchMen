@@ -4,12 +4,13 @@
         <div class="form-group">
             <label for="{{key}}" class="col-sm-2 control-label">{{key}}</label>
             <div class="col-sm-4">
-                <input class="form-control"
+                <textarea class="form-control"
                        id="{{key}}"
-                       placeholder=""
+                       placeholder="{{obj.placeholder}}"
                        ng-required="{{obj.required}}"
-                       type="text"
-                       ng-model="obj.value"/>
+                       type="text" rows="4"
+                       ng-model="obj.value"
+                       style="margin-left: 0px; margin-right: -361px; width: 565px;"/>
             </div>
             <div class="descr col-sm-6">{{obj.descr}}</div>
         </div>
