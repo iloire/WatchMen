@@ -83,6 +83,31 @@
                 <div class="descr col-sm-4">Ping service to use</div>
             </div>
             <br/>
+
+            <div class="form-group">
+                <label for="service-pingService-type" class="col-sm-2 control-label">Method Type</label>
+                <div class="col-sm-6">
+                    <select id="service-pingService-Type" ng-model="service.serviceType" class="form-control">
+                        <option>GET</option>
+                        <option>POST</option>
+                        <option>PUT</option>
+                        <option>DELETE</option>
+                    </select>
+                </div>
+                <div class="descr col-sm-4">Method Type [Get/Post/Put/Delete]</div>
+            </div>
+            <div class="form-group">
+                <label for="service-restrictedToEnv" class="col-sm-2 control-label">Restricted to</label>
+                <div class="col-sm-6">
+                    <select id="service-restrictedToEnv" ng-model="service.restrictedToEnv" class="form-control">
+                        <option>QA</option>
+                        <option>SATGE</option>
+                        <option>PROD</option>
+                    </select>
+                </div>
+                <div class="descr col-sm-4">QA/SATGE/Prod</div>
+            </div>
+<!--
             <div class="form-group">
                 <label for="service-restrictedTo" class="col-sm-2 control-label">Restricted to</label>
                 <div class="col-sm-6">
@@ -90,6 +115,7 @@
                 </div>
                 <div class="descr col-sm-4">List of restricted emails to have access to this service stats</div>
             </div>
+-->
             <div class="form-group">
                 <label for="service-alertTo" class="col-sm-2 control-label">Alert to</label>
                 <div class="col-sm-6">
