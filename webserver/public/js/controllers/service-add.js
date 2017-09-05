@@ -28,6 +28,8 @@
       $scope.service.failureInterval = 30000;
       $scope.service.failuresToBeOutage = 1;
       $scope.service.port = 80;
+      $scope.service.serviceType = 'GET';
+      $scope.service.restrictedToEnv = 'QA';
       $scope.service.pingServiceName = 'http-head';
 
       $scope.save = function () {

@@ -100,12 +100,13 @@
                 <label for="service-restrictedToEnv" class="col-sm-2 control-label">Restricted to</label>
                 <div class="col-sm-6">
                     <select id="service-restrictedToEnv" ng-model="service.restrictedToEnv" class="form-control">
+                        <option>PROD</option>
                         <option>QA</option>
                         <option>SATGE</option>
-                        <option>PROD</option>
+                        <option>UAT</option>
                     </select>
                 </div>
-                <div class="descr col-sm-4">QA/SATGE/Prod</div>
+                <div class="descr col-sm-4">QA/SATGE/Prod/UAT</div>
             </div>
 <!--
             <div class="form-group">

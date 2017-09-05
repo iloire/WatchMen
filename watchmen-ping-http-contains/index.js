@@ -65,8 +65,8 @@ PingService.prototype.ping = function(service, callback){
     var startTime = +new Date();
 
     request(prepareOptions(), function(error, response, body){
-        //console.log("requestBody :::: " + payload);
-        //console.log("requestMethod :::: " + prepareOptions().method);
+        console.log("requestBody :::: " + payload);
+        console.log("requestMethod :::: " + prepareOptions().method);
         console.log("Response :::: " + body);
         var elapsedTime = +new Date() - startTime;
         if (error) {

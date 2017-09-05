@@ -34,11 +34,16 @@ module.exports = (function (){
         },
         function(request, accessToken, refreshToken, profile, done) {
           var email = profile.emails[0].value;
+          var imageURL = JSON.parse(JSON.stringify(profile._json['image']));
+          var url = imageURL.url.replace(/sz=.*/, "");
+            console.log("Image URL"+ url);
           done(null, {
             email : email,
             emailHash: md5(email),
+            imageUrl: url,
             isAdmin: isAdmin(email)
           });
+
         }
       ));
 
@@ -52,9 +57,8 @@ module.exports = (function (){
 
       app.use(passport.initialize());
       app.use(passport.session());
-
       app.get('/auth/google', passport.authenticate('google', {
-        scope: 'https://www.google.com/m8/feeds https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
+        scope: 'https://www.google.com/m8/feeds https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile '
       }));
 
       app.get('/auth/google/callback', passport.authenticate('google', {
