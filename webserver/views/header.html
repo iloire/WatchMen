@@ -7,11 +7,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">watchmen</a>
+            <a class="navbar-brand" href="/">The Wall</a>
         </div>
         <div class="navbar-collapse collapse" id="main-nav-bar">
             <ul class="nav navbar-nav navbar-right">
-                <% if ((user && user.isAdmin) || no_auth) { %>
+                <% if ((user) || no_auth) { %>
                 <li>
                     <a ui-sref="newService" class="btn">Add New Service</a>
                 </li>
@@ -19,7 +19,7 @@
                 <% if (user) { %>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-                        <img src="//www.gravatar.com/avatar/<%=user.emailHash%>?s=20"/>
+                        <img class="img-circle" src="<%=user.imageUrl%>sz=20"/>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
