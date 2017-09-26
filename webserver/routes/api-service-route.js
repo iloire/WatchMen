@@ -21,13 +21,21 @@ module.exports.getRoutes = function (storage) {
     }
   };
 
-  /**
+    var requireUser = function (req, res, next) {
+        if ((req.user) || config.no_auth) {
+            next();
+        } else {
+            return res.status(401).json({error: 'auth required'});
+        }
+    };
+
+    /**
    * Add service
    */
 
-  router.post('/services', requireAdmin, function (req, res) {
+  router.post('/services', requireUser, function (req, res) {
     var service = req.body;
-
+    console.log("Request Body  ---  "+ JSON.stringify(req.body));
     var errors = serviceValidator.validate(service);
     if (errors.length) {
       return res.status(400).json({errors: errors});
@@ -71,7 +79,7 @@ module.exports.getRoutes = function (storage) {
    * Update service
    */
 
-  router.post('/services/:id', requireAdmin, function (req, res) {
+  router.post('/services/:id', requireUser, function (req, res) {
 
     var id = req.params.id;
     if (!id) {
@@ -132,8 +140,7 @@ module.exports.getRoutes = function (storage) {
   /**
    * Load service
    */
-
-  router.get('/services/:id', requireAdmin, function (req, res) {
+  router.get('/services/:id', requireUser, function (req, res) {
     if (!req.params.id) {
       return res.status(404).json({error: 'ID parameter not found'});
     }
@@ -156,7 +163,7 @@ module.exports.getRoutes = function (storage) {
    * Load services
    */
 
-  router.get('/services', requireAdmin, function (req, res) {
+  router.get('/services', requireUser, function (req, res) {
     storage.getServices({}, function (err, services) {
       if (err) {
         console.error(err);

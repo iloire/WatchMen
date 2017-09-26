@@ -1,6 +1,3 @@
-/*jslint node: true */
-'use strict';
-
 var colors = require('colors');
 var moment = require('moment');
 
@@ -8,9 +5,9 @@ var merge = require('merge');
 var Slack = require('node-slack');
 require('dotenv').load({ silent: true });
 
-var slack = new Slack(process.env.WATCHMEN_SLACK_NOTIFICATION_URL);
+
 var defaultOptions = {
-  channel: '#general11',
+  channel: '#watchmen_alert',
   username: 'Watchmen',
   icon_emoji: ':mega:'
 };
@@ -66,12 +63,12 @@ function sendSlackMessage(textMsg, errorText, colorCode){
             }
         ]
     };
+    var slack = new Slack(process.env.WATCHMEN_SLACK_NOTIFICATION_URL);
     slack.send(merge(defaultOptions, options));
-    //console.log("Message Sent to Slack")
+    console.log("Message Sent to Slack")
 }
 
 var eventHandlers = {
-
     /**
      * On a new outage
      * @param service
@@ -132,13 +129,38 @@ var eventHandlers = {
 };
 
 
-function SlackPlugin(watchmen) {
-  watchmen.on('latency-warning', eventHandlers.onLatencyWarning);
-  watchmen.on('new-outage',      eventHandlers.onNewOutage);
-  watchmen.on('current-outage',  eventHandlers.onCurrentOutage);
-  watchmen.on('service-back',    eventHandlers.onServiceBack);
-  watchmen.on('service-error',   eventHandlers.onFailedCheck);
-  watchmen.on('service-ok',      eventHandlers.onServiceOk);
+function handleAlert(eventname){
+    console.log("inside Handle Alert == ", eventname)
+    return function(service, data) {
+        if (notifications.indexOf(eventname) === -1) {
+            return;
+        }
+
+        if (eventname == 'latency-warning') {
+            eventHandlers.onLatencyWarning(service, data);
+        } else if (eventname == 'new-outage') {
+            eventHandlers.onNewOutage(service, data);
+        } else if (eventname == 'current-outage') {
+            eventHandlers.onCurrentOutage(service, data);
+        } else if (eventname == 'service-back') {
+            eventHandlers.onServiceBack(service, data);
+        } else if (eventname == 'service-ok') {
+            eventHandlers.onServiceOk(service, data);
+        } else {
+            return
+        }
+    };
 }
 
 exports = module.exports = SlackPlugin;
+
+function SlackPlugin(watchmen) {
+  watchmen.on('latency-warning', handleAlert('latency-warning'));
+  watchmen.on('new-outage',      handleAlert('new-outage'));
+  watchmen.on('current-outage',  handleAlert('current-outage'));
+  watchmen.on('service-back',    handleAlert('service-back'));
+  //watchmen.on('service-error',   handleAlert('service-error'));
+  watchmen.on('service-ok',      handleAlert('service-ok'));
+}
+
+

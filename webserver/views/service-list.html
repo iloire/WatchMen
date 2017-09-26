@@ -13,24 +13,15 @@
                     <span class="icon glyphicon glyphicon-search"></span>
                     <input ng-model="query" class="query form-control" placeholder="filter by host name"/>
                 </div>
-<!--                <div class="col-md-2 filters">
-                    <input ng-model="filterRestrictedToPROD" id="filterRestrictedToPROD" type="checkbox" checked/>
-                    <label for="filterRestrictedToPROD">PROD</label>
-                    <input ng-model="filterRestrictedQA" id="filterRestrictedQA" type="checkbox"/>
-                    <label for="filterRestrictedQA">QA</label>
-                    <input ng-model="filterRestrictedSTAGE" id="filterRestrictedSTAGE" type="checkbox"/>
-                    <label for="filterRestrictedSTAGE">STAGE</label>
-                    <input ng-model="filterRestrictedUAT" id="filterRestrictedUAT" type="checkbox"/>
-                    <label for="filterRestrictedUAT">UAT</label>
-                </div>-->
                 <div class="col-md-2 filters">
-                    <select id="filterRestrictedTO" ng-model="service.restrictedToEnv" class="form-control">
-                        <option id="filterRestrictedToALL" value=''>ALL</option>
-                        <option id="filterRestrictedToPROD">PROD</option>
-                        <option id="filterRestrictedToQA">QA</option>
-                        <option id="filterRestrictedToSTAGE">SATGE</option>
-                        <option id="filterRestrictedToUAT">UAT</option>
-                    </select>
+                    <input ng-model="filterRestrictedToMe" id="filterRestrictedToMe" type="checkbox" checked/>
+                    <label for="filterRestrictedToMe">PROD</label>
+                    <input ng-model="filterRestrictedStage01" id="filterRestrictedStage01" type="checkbox"/>
+                    <label for="filterRestrictedStage01">STAGE01</label>
+                    <input ng-model="filterRestrictedStage02" id="filterRestrictedStage02" type="checkbox"/>
+                    <label for="filterRestrictedStage02">STAGE02</label>
+                    <input ng-model="filterRestrictedStage03" id="filterRestrictedStage03" type="checkbox"/>
+                    <label for="filterRestrictedStage03">STAGE03</label>
                 </div>
             </div>
         </div>

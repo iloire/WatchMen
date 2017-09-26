@@ -1,0 +1,13 @@
+export WATCHMEN_BASE_URL='http://watchmen.swiggy.in:4444'
+export WATCHMEN_WEB_PORT='4444'
+export WATCHMEN_ADMINS='abhijit.p@swiggy.in'
+export WATCHMEN_GOOGLE_ANALYTICS_ID='your-GA-ID'
+export WATCHMEN_GOOGLE_CLIENT_ID='312491122782-noljqnn1kacm2fgii55qh867nlaj5664.apps.googleusercontent.com'
+export WATCHMEN_GOOGLE_CLIENT_SECRET='n87IrLJl_McFpfQyN4AjitgR'
+export WATCHMEN_WEB_NO_AUTH='false'
+
+export WATCHMEN_SLACK_NOTIFICATION_EVENTS='current-outage service-back latency-warning new-outage'
+export WATCHMEN_SLACK_NOTIFICATION_URL='https://hooks.slack.com/services/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'
+export WATCHMEN_SLACK_NOTIFICATION_CHANNEL='#testslackqa'
+export WATCHMEN_SLACK_NOTIFICATION_USERNAME='Watchmen'
+export WATCHMEN_SLACK_NOTIFICATION_ICON_EMOJI=':loudspeaker:'
