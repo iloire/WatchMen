@@ -28,13 +28,13 @@
                 </div>
                 <div class="descr col-sm-4">Service URL</div>
             </div>
-            <div class="form-group">
+<!--            <div class="form-group">
                 <label for="service-port" class="col-sm-2 control-label">Port</label>
                 <div class="col-sm-6">
                     <input ng-required="true" ng-model="service.port" type="number" class="form-control" id="service-port" placeholder="80">
                 </div>
                 <div class="descr col-sm-4">Service Port</div>
-            </div>
+            </div>-->
             <br/>
             <div class="form-group">
                 <label for="service-interval" class="col-sm-2 control-label">Interval (ms)</label>
@@ -83,6 +83,32 @@
                 <div class="descr col-sm-4">Ping service to use</div>
             </div>
             <br/>
+
+            <div class="form-group">
+                <label for="service-pingService-type" class="col-sm-2 control-label">Method Type</label>
+                <div class="col-sm-6">
+                    <select id="service-pingService-Type" ng-model="service.serviceType" class="form-control">
+                        <option>GET</option>
+                        <option>POST</option>
+                        <option>PUT</option>
+                        <option>DELETE</option>
+                    </select>
+                </div>
+                <div class="descr col-sm-4">Method Type [Get/Post/Put/Delete]</div>
+            </div>
+            <div class="form-group">
+                <label for="service-restrictedToEnv" class="col-sm-2 control-label">Restricted to</label>
+                <div class="col-sm-6">
+                    <select id="service-restrictedToEnv" ng-model="service.restrictedToEnv" class="form-control">
+                        <option>PROD</option>
+                        <option>STAGE01</option>
+                        <option>STAGE02</option>
+                        <option>STAGE03</option>
+                    </select>
+                </div>
+                <div class="descr col-sm-4">QA/SATGE/Prod/UAT</div>
+            </div>
+<!--
             <div class="form-group">
                 <label for="service-restrictedTo" class="col-sm-2 control-label">Restricted to</label>
                 <div class="col-sm-6">
@@ -90,12 +116,13 @@
                 </div>
                 <div class="descr col-sm-4">List of restricted emails to have access to this service stats</div>
             </div>
+-->
             <div class="form-group">
                 <label for="service-alertTo" class="col-sm-2 control-label">Alert to</label>
                 <div class="col-sm-6">
-                    <input type="text" ng-model="service.alertTo" type="checkbox" class="form-control" id="service-alertTo" placeholder="myemail@mydomain.com, admin@myotherdomain.com">
+                    <input type="text" ng-model="service.alertTo" type="checkbox" class="form-control" id="service-alertTo" placeholder="#watchmen_alert, @abhijit.pati">
                 </div>
-                <div class="descr col-sm-4">List of emails to alert to</div>
+                <div class="descr col-sm-4">List of Slack Channel/Person to alert to</div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">

@@ -11,6 +11,9 @@ var report = require('./routes/api-report-route');
 var web = require('./routes/web-route');
 var plugins = require('./routes/api-ping-plugins-route');
 var auth = require('./routes/web-auth-route');
+var favicon = require('serve-favicon');
+
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 exports = module.exports = function(storage){
   if (!storage) {
