@@ -16,6 +16,7 @@ addons:
 branches:
   only:
     - master
+    - /^greenkeeper-.*$/
 
 node_js:
   - '7'
