@@ -18,13 +18,21 @@ branches:
     - master
 
 node_js:
-  - '4'
-  - '5'
-  - '6'
   - '7'
+  - '8'
+  - '9'
+  - '10'
+  - '11'
+  - '12'
+  - node
+
 os:
+  - windows
   - linux
   - osx
+ 
+env:
+  - NODE_ENV=testing
 
 services:
   - mongodb
