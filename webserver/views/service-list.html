@@ -28,7 +28,7 @@
             <tbody>
 
             <tr ng-class={'result-disabled':row.service.enabled===false,'result-success':!row.status.currentOutage,'result-error':row.status.currentOutage}
-                ng-repeat="row in $data | filter:serviceFilter">
+                ng-repeat="row in $data | filter:serviceFilter track by row.service.id">
 
                 <% if ((user && user.isAdmin) || no_auth) { %>
                 <td class="admin-operations" data-title="'Admin'">
