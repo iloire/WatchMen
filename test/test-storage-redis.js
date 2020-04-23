@@ -32,13 +32,14 @@ describe('redis storage', function(){
   describe('services', function(){
     it('should save and retrieve service object', function(done) {
       var newService = {
-        interval: 1000
+        interval: 1000,
+        tags: 'tag1, tag2'
       };
       redisStorage.addService(newService, function(err, id){
         redisStorage.getService(id, function(err, service) {
           assert.equal(service.id, id);
           assert.equal(service.created, INITIAL_TIME);
-          assert.equal(service.interval, 1000);
+          assert.deepEqual(service.tags, [ 'tag1' , 'tag2' ]);
           done();
         });
       });
@@ -46,15 +47,19 @@ describe('redis storage', function(){
 
     it('should update service', function(done) {
       var newService = {
-        interval: 1000
+        interval: 1000,
+        tags: ['tag1', 'tag2', 'tag1']
       };
       redisStorage.addService(newService, function(err, id){
         redisStorage.getService(id, function(err, service) {
           assert.equal(service.id, id);
           assert.equal(service.interval, 1000);
+          assert.deepEqual(service.tags, [ 'tag1' , 'tag2' ]);
           service.interval = 2000;
+          service.tags.push('tag3')
           redisStorage.updateService(service, function(err, service) {
             assert.equal(service.interval, 2000);
+            assert.deepEqual(service.tags, [ 'tag1' , 'tag2', 'tag3' ]);
             done();
           });
         });

@@ -52,7 +52,7 @@ module.exports.getRoutes = function (storage){
    */
 
   router.get('/services', function(req, res){
-    reporter.getServices({}, function (err, serviceReports){
+    reporter.getServices(req.query, function (err, serviceReports){
       if (err) {
         console.error(err);
         return res.status(500).json({ error: err });

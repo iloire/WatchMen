@@ -46,6 +46,16 @@
         });
   });
 
+  factories.factory('Tags', function($http) {
+    return {
+      query: function(callback) {
+        return $http.get('/api/tags').then(function(data) {
+          callback(data.data);
+        });
+      }
+    }
+  });
+
   factories.factory('PingPlugins', function ($resource, $cacheFactory) {
     pingPluginsCache = $cacheFactory('PingPlugins');
     return $resource('/api/plugins/:id',

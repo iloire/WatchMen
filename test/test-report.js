@@ -49,7 +49,7 @@ describe('reporting', function () {
 
     reporter = new reportService(storage);
 
-    servicesFixtures = dummyServiceGenerator.generate(1);
+    var servicesFixtures = dummyServiceGenerator.generate(1);
 
     storage.flush_database(function () {
 
@@ -197,11 +197,12 @@ describe('reporting', function () {
           clock.tick(4 * HOUR);
           reporter.getService(services[0].id, function (err, data) {
             assert.ifError(err);
-            assert.equal(data.status.lastWeek.latency.list.length, 4);
-            assert.equal(data.status.lastWeek.latency.list[0].l, 1000);
-            assert.equal(data.status.lastWeek.latency.list[1].l, 400);
-            assert.equal(data.status.lastWeek.latency.list[2].l, 200);
-            assert.equal(data.status.lastWeek.latency.list[3].l, 100);
+            assert.equal(data.status.lastWeek.latency.list.length, 5);
+            assert.equal(data.status.lastWeek.latency.list[0].l, 1100);
+            assert.equal(data.status.lastWeek.latency.list[1].l, 900);
+            assert.equal(data.status.lastWeek.latency.list[2].l, 400);
+            assert.equal(data.status.lastWeek.latency.list[3].l, 200);
+            assert.equal(data.status.lastWeek.latency.list[4].l, 100);
             done();
           });
         });

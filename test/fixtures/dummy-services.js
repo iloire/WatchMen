@@ -11,6 +11,15 @@ exports = module.exports = (function(){
     }
   }
 
+  function getRandomTags() {
+    var tags = [];
+    var size = faker.random.number(3);
+    for (var i = 0; i < size; i++) {
+      tags.push(faker.random.array_element(['prod', 'dev', 'remote', 'office2']))
+    }
+    return tags;
+  }
+
   function generateDummyService (i){
     return {
       name: getRandomName(false),
@@ -20,7 +29,8 @@ exports = module.exports = (function(){
       port: 443,
       timeout: 10000,
       warningThreshold: 3000,
-      pingServiceName: 'http-head'
+      pingServiceName: 'http-head',
+      tags: getRandomTags()
     };
   }
 

@@ -29,6 +29,7 @@
       $scope.service.failuresToBeOutage = 1;
       $scope.service.port = 80;
       $scope.service.pingServiceName = 'http-head';
+      $scope.service.tags = '';
 
       $scope.save = function () {
 
