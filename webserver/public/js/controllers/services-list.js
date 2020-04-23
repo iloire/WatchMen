@@ -106,6 +106,26 @@
           }
         };
 
+        $scope.pause = function (id) {
+          if (confirm('Are you sure you want to pause this service?')) {
+            Service.pause({id: id}, function () {
+              reload(function () {                
+              }, function () {
+                $scope.errorLoadingServices = "Error loading data from remote server";
+              });
+            });
+          }
+        };
+
+        $scope.resume = function (id) {
+          Service.resume({id: id}, function () {
+            reload(function () {              
+            }, function () {
+              $scope.errorLoadingServices = "Error loading data from remote server";
+            });
+          });
+        };
+        
         reload(scheduleNextTick, loadServicesErrHandler);
 
       });

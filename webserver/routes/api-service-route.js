@@ -168,5 +168,63 @@ module.exports.getRoutes = function (storage) {
     });
   });
 
+  /**
+   * Pause service
+   */
+
+  router.post('/services/:id/pause', requireAdmin, function (req, res) {
+    var id = req.params.id;
+    if (!id) {
+      return res.status(404).json({error: 'ID parameter not found'});
+    }
+    storage.getService(id, function (err, service) {
+      if (err) {
+        return res.status(500).json({error: err});
+      }
+      
+      if (!service) {
+        return res.status(404).json({error: 'service not found'});
+      }
+      
+      service.isPaused = 1;
+      
+      storage.updateService(service, function (err, service) {
+        if (err) {
+          return res.status(500).json({error: err});
+        }
+        return res.json(service);
+      });
+    });
+  });
+
+  /**
+   * Resume service
+   */
+
+  router.post('/services/:id/resume', requireAdmin, function (req, res) {
+    var id = req.params.id;
+    if (!id) {
+      return res.status(404).json({error: 'ID parameter not found'});
+    }
+    storage.getService(id, function (err, service) {
+      if (err) {
+        return res.status(500).json({error: err});
+      }
+      
+      if (!service) {
+        return res.status(404).json({error: 'service not found'});
+      }
+
+      service.isPaused = 0;
+      
+      storage.updateService(service, function (err, service) {
+        if (err) {
+          return res.status(500).json({error: err});
+        }
+        return res.json(service);
+      });
+    });
+  });
+
   return router;
 };

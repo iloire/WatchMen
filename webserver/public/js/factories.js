@@ -41,6 +41,22 @@
           reset: {
             method: 'POST',
             url: '/api/services/:id/reset'
+          },
+
+          /**
+           * Pause service
+           */
+          pause: {
+            method: 'POST',
+            url: '/api/services/:id/pause'
+          },
+
+          /**
+           * Resume service
+           */
+          resume: {
+            method: 'POST',
+            url: '/api/services/:id/resume'
           }
 
         });

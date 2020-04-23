@@ -28,7 +28,7 @@
             <tbody>
 
             <tr ng-class={'result-disabled':row.service.enabled===false,'result-success':!row.status.currentOutage,'result-error':row.status.currentOutage}
-                ng-repeat="row in $data | filter:serviceFilter">
+                ng-repeat="row in $data | filter:serviceFilter track by row.service.id">
 
                 <% if ((user && user.isAdmin) || no_auth) { %>
                 <td class="admin-operations" data-title="'Admin'">
@@ -41,6 +41,13 @@
                             <a class="edit btn btn-default btn-xs" href="services/{{row.service.id}}/edit">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> edit
                             </a>
+                            <button class="btn btn-warning btn-xs" ng-click="pause(row.service.id)" ng-if="!row.service.isPaused" >
+                                <span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Pause
+                            </button>
+                            
+                            <button class="btn btn-warning btn-xs" ng-click="resume(row.service.id)" ng-if="row.service.isPaused" >
+                                <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Resume
+                            </button>
                             <button class="btn btn-danger btn-xs" ng-click="reset(row.service.id)">
                                 <span class="glyphicon glyphicon-fire" aria-hidden="true"></span> reset
                             </button>
@@ -53,8 +60,9 @@
                 <% } %>
 
                 <td class="status" data-title="'Status'" sortable="'status.currentOutage'">
-                    <span ng-if="row.status.currentOutage" class="label label-danger">offline</span>
-                    <span ng-if="!row.status.currentOutage" class="label label-success">online</span>
+                    <span ng-if="(!row.service.isPaused && row.status.currentOutage)" class="label label-danger">offline</span>
+                    <span ng-if="(!row.service.isPaused && !row.status.currentOutage)" class="label label-success">online</span>
+                    <span ng-if="row.service.isPaused" class="label label-info">Paused</span>
                 </td>
 
                 <td class="result-uptime"  data-title="'last 24h'" sortable="'status.last24Hours.uptime'">
