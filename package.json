@@ -43,7 +43,7 @@
     "express": "^4.12.3",
     "express-ejs-layouts": "^1.1.0",
     "express-session": "^1.10.4",
-    "lodash": "^3.8.0",
+    "lodash": "^4.17.19",
     "method-override": "2.3.x",
     "moment": "^2.10.3",
     "passport": "^0.2.1",
