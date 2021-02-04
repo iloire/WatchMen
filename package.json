@@ -2,13 +2,13 @@
   "author": "Iván Loire <ivan@iloire.com> (http://iloire.com/)",
   "name": "watchmen",
   "scripts": {
-    "_redis:prod":"redis-server config/redis.prod.conf || true || EXIT /B 0",
-	"_redis:test":"redis-server config/redis.test.conf || true || EXIT /B 0",
-	"_redis:dev":"redis-server config/redis.dev.conf || true || EXIT /B 0",
-	"_redis:kill":"kill `cat test/redis.pid` || redis-cli shutdown || true || EXIT /B 0",
+    "_redis:prod": "redis-server config/redis.prod.conf || true || EXIT /B 0",
+    "_redis:test": "redis-server config/redis.test.conf || true || EXIT /B 0",
+    "_redis:dev": "redis-server config/redis.dev.conf || true || EXIT /B 0",
+    "_redis:kill": "kill `cat test/redis.pid` || redis-cli shutdown || true || EXIT /B 0",
     "_coverage": "concurrently --raw \"npm run redis:test\" \"istanbul cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000 && npm run redis:kill\"",
     "_test": "concurrently --raw \"npm run redis:test\" \"mocha -R list test/*.js && npm run redis:kill\"",
-	"start": "concurrently \"node run-monitor-server.js\" \"node run-web-server.js\"",
+    "start": "concurrently \"node run-monitor-server.js\" \"node run-web-server.js\"",
     "start:mon": "node run-monitor-server.js",
     "start:svr": "node run-web-server.js",
     "start:dev": "cross-env WATCHMEN_WEB_NO_AUTH=true concurrently \"node run-monitor-server.js\" \"node run-web-server.js\"",
@@ -21,8 +21,10 @@
     "precoverage": "redis-server config/redis.test.conf || true || EXIT /B 0",
     "pretest": "redis-server config/redis.test.conf || true || EXIT /B 0",
     "test": "mocha -R list test/*.js",
-	"bower:install": "bower install",
-	"bower:update": "bower update"
+    "bower:install": "bower install",
+    "bower:update": "bower update",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "description": "A simple service monitor",
   "version": "3.3.2",
@@ -71,7 +73,8 @@
     "watchmen-ping-http-contains": "^0.0.2",
     "watchmen-ping-http-head": "^0.2.0",
     "watchmen-plugin-aws-ses": "0.0.1",
-    "watchmen-plugin-console": "0.2.0"
+    "watchmen-plugin-console": "0.2.0",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "assert": ">=1.4.1",
@@ -98,5 +101,6 @@
     "run-sequence": ">=1.2.2",
     "sinon": ">=1.17.7",
     "supertest": ">=2.0.1"
-  }
+  },
+  "snyk": true
 }
